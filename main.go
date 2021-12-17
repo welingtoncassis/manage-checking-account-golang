@@ -6,6 +6,14 @@ import (
 	"fmt"
 )
 
+type IAccount interface {
+	Withdraw(withdrawalValue float64) string
+}
+
+func PayBillet(account IAccount, withdrawalValue float64) {
+	account.Withdraw(withdrawalValue)
+}
+
 func main() {
 
 	firstPerson := customers.Person{Name: "Welington", Phone: "9999999"}
@@ -24,6 +32,8 @@ func main() {
 
 	transferStatus := firstAccount.Transfer(50, &secondAccount)
 	fmt.Println(transferStatus)
+
+	PayBillet(&secondAccount, 10)
 
 	fmt.Println(firstAccount)
 	fmt.Println(secondAccount)
