@@ -1,21 +1,20 @@
 package main
 
-import "fmt"
-
-type Account struct {
-	holder        string
-	numberAgency  int
-	numberAccount int
-	balance       float64
-}
+import (
+	account "banco/accounts"
+	"banco/customers"
+	"fmt"
+)
 
 func main() {
 
-	firstAccount := Account{"Welington", 589, 123456, 125.5}
+	firstPerson := customers.Person{Name: "Welington", Phone: "9999999"}
+	firstAccount := account.Account{Holder: firstPerson, NumberAgency: 589, NumberAccount: 123456}
+	firstAccount.Deposit(125.5)
 
-	// var firstAccount *Account
-	// firstAccount = new(Account)
-	// firstAccount.balance = 500
+	secondPerson := customers.Person{Name: "Assis", Phone: "999999"}
+	secondAccount := account.Account{Holder: secondPerson, NumberAgency: 589, NumberAccount: 123457}
+	secondAccount.Deposit(10.5)
 
 	withdrawalValue := 200.0
 	fmt.Println(firstAccount.Withdraw(withdrawalValue))
@@ -23,26 +22,10 @@ func main() {
 	status, value := firstAccount.Deposit(100.0)
 	fmt.Println(status, value)
 
-}
+	transferStatus := firstAccount.Transfer(50, &secondAccount)
+	fmt.Println(transferStatus)
 
-func (c *Account) Withdraw(withdrawalValue float64) string {
+	fmt.Println(firstAccount)
+	fmt.Println(secondAccount)
 
-	isOk := withdrawalValue > 0 && withdrawalValue <= c.balance
-	if isOk {
-		c.balance -= withdrawalValue
-		return "successful withdrawal"
-	} else {
-		return "insufficient funds"
-	}
-}
-
-func (c *Account) Deposit(amountdeposit float64) (string, float64) {
-	isOK := amountdeposit > 0
-
-	if isOK {
-		c.balance += amountdeposit
-		return "deposit done successfully", c.balance
-	} else {
-		return "error when making the deposit", c.balance
-	}
 }
