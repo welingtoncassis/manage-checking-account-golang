@@ -20,6 +20,9 @@ func main() {
 	withdrawalValue := 200.0
 	fmt.Println(firstAccount.Withdraw(withdrawalValue))
 
+	status, value := firstAccount.Deposit(100.0)
+	fmt.Println(status, value)
+
 }
 
 func (c *Account) Withdraw(withdrawalValue float64) string {
@@ -30,5 +33,16 @@ func (c *Account) Withdraw(withdrawalValue float64) string {
 		return "successful withdrawal"
 	} else {
 		return "insufficient funds"
+	}
+}
+
+func (c *Account) Deposit(amountdeposit float64) (string, float64) {
+	isOK := amountdeposit > 0
+
+	if isOK {
+		c.balance += amountdeposit
+		return "deposit done successfully", c.balance
+	} else {
+		return "error when making the deposit", c.balance
 	}
 }
